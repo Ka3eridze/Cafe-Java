@@ -13,63 +13,63 @@ public class CafeClient {
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 Scanner sc = new Scanner(System.in)
         ) {
-            System.out.println(in.readLine()); // Connected message
+            System.out.println(in.readLine()); //connected message
 
             boolean running = true;
             while (running) {
                 System.out.println("\n=== Smart Cafe ===");
-                System.out.println("1. Сделать заказ");
-                System.out.println("0. Выйти");
-                System.out.print("Выбор: ");
+                System.out.println("1. Make an order");
+                System.out.println("0. Exit");
+                System.out.print("Choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
 
                 switch (choice) {
                     case 1 -> {
-                        // Запрашиваем меню у сервера
+                        //ask menu from server
                         out.println("MENU");
                         String menuLine;
                         while (!(menuLine = in.readLine()).equals("------------")) {
                             System.out.println(menuLine);
                         }
-                        System.out.println(menuLine); // печатаем "------------"
+                        System.out.println(menuLine);
 
-                        // Ввод заказа
-                        System.out.print("Введите Order ID: ");
+                        //order output
+                        System.out.print("Enter Order ID: ");
                         int orderId = sc.nextInt();
                         sc.nextLine();
 
-                        System.out.print("Введите дату (YYYY-MM-DD): ");
+                        System.out.print("Enter the date (YYYY-MM-DD): ");
                         String date = sc.nextLine();
 
-                        System.out.print("Способ оплаты (Cash/Card): ");
+                        System.out.print("Payment method (Cash/Card): ");
                         String payment = sc.nextLine();
 
                         out.println("ORDER;" + orderId + ";" + date + ";" + payment);
 
                         boolean adding = true;
                         while (adding) {
-                            System.out.print("Введите ID блюда: ");
+                            System.out.print("Enter meal ID: ");
                             int menuId = sc.nextInt();
-                            System.out.print("Введите количество: ");
+                            System.out.print("Quantity: ");
                             int qty = sc.nextInt();
                             sc.nextLine();
 
                             out.println("ITEM;" + menuId + ";" + qty);
 
-                            System.out.print("Добавить ещё? (y/n): ");
+                            System.out.print("Add more? (y/n): ");
                             String more = sc.nextLine();
                             if (more.equalsIgnoreCase("n")) adding = false;
                         }
 
                         out.println("END");
-                        System.out.println(in.readLine()); // total
+                        System.out.println(in.readLine()); //total
                     }
                     case 0 -> {
                         running = false;
-                        System.out.println("Выход...");
+                        System.out.println("Exiting...");
                     }
-                    default -> System.out.println("Неверный выбор!");
+                    default -> System.out.println("Wrong choce!");
                 }
             }
 

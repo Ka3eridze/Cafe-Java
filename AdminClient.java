@@ -1,24 +1,29 @@
 import java.sql.*;
 import java.util.Scanner;
 
-public class AdminClient {
+public class AdminClient
+{
     private static final String URL = "jdbc:mysql://localhost:3306/cafe_db?useSSL=false&serverTimezone=UTC";
     private static final String USER = "";
     private static final String PASSWORD = "";
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Scanner sc = new Scanner(System.in)) {
+             Scanner sc = new Scanner(System.in))
+        {
 
             System.out.println("=== Smart Cafe Admin ===");
 
             boolean running = true;
-            while (running) {
+            while (running)
+            {
                 printMenu();
                 int choice = sc.nextInt();
                 sc.nextLine();
 
-                switch (choice) {
+                switch (choice)
+                {
                     case 1 -> viewMenu(conn);
                     case 2 -> addMenuItem(conn, sc);
                     case 3 -> deleteMenuItem(conn, sc);
@@ -29,12 +34,14 @@ public class AdminClient {
                 }
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
         }
     }
 
-    private static void printMenu() {
+    private static void printMenu()
+    {
         System.out.println("\nAdmin Options:");
         System.out.println("1. View Menu");
         System.out.println("2. Add New Menu Item");
@@ -45,12 +52,14 @@ public class AdminClient {
         System.out.print("Enter choice: ");
     }
 
-    private static void viewMenu(Connection conn) throws SQLException {
+    private static void viewMenu(Connection conn) throws SQLException
+    {
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM menu_items");
         System.out.println("\nID  Name             Category   Price");
         System.out.println("-------------------------------------");
-        while (rs.next()) {
+        while (rs.next())
+        {
             System.out.printf("%-3d %-16s %-10s %.2f%n",
                     rs.getInt("id"),
                     rs.getString("name"),
@@ -61,7 +70,8 @@ public class AdminClient {
         stmt.close();
     }
 
-    private static void addMenuItem(Connection conn, Scanner sc) throws SQLException {
+    private static void addMenuItem(Connection conn, Scanner sc) throws SQLException
+    {
         System.out.print("Enter item name: ");
         String name = sc.nextLine();
         System.out.print("Enter category (sweet/drink): ");
@@ -81,7 +91,8 @@ public class AdminClient {
         ps.close();
     }
 
-    private static void deleteMenuItem(Connection conn, Scanner sc) throws SQLException {
+    private static void deleteMenuItem(Connection conn, Scanner sc) throws SQLException
+    {
         System.out.print("Enter Menu ID to delete: ");
         int id = sc.nextInt();
         sc.nextLine();
@@ -93,12 +104,14 @@ public class AdminClient {
         ps.close();
     }
 
-    private static void viewOrders(Connection conn) throws SQLException {
+    private static void viewOrders(Connection conn) throws SQLException
+    {
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM orders");
         System.out.println("\nOrderID  Date       Payment  Total");
         System.out.println("---------------------------------");
-        while (rs.next()) {
+        while (rs.next())
+        {
             System.out.printf("%-8d %-10s %-7s %.2f%n",
                     rs.getInt("order_id"),
                     rs.getDate("order_date"),
@@ -109,7 +122,8 @@ public class AdminClient {
         stmt.close();
     }
 
-    private static void deleteOrder(Connection conn, Scanner sc) throws SQLException {
+    private static void deleteOrder(Connection conn, Scanner sc) throws SQLException
+    {
         System.out.print("Enter Order ID to delete: ");
         int orderId = sc.nextInt();
         sc.nextLine();
